@@ -3,6 +3,7 @@
     <van-cell is-link @click="showPopup">展示弹出层</van-cell>
     <van-card
       class="item"
+      @click="gotoDetail(item.name)"
       v-for="item in records"
       :key="item.picture"
       :thumb="item.picture"
@@ -26,7 +27,11 @@ export default {
       records:[]
     };
   },
- async  asyncData({app}) {
+  mounted() {
+    this.$store.commit('setRecords',this.records)
+  },
+ async  asyncData(ctx) {
+   const {app} = ctx;
     const {data} = await  app.$axios.get('https://www.fastmock.site/mock/65afb835c3ac52158aa333fa2b8571b4/name/name')
     return { records: data.RECORDS }
   },
@@ -34,6 +39,9 @@ export default {
     showPopup() {
       this.show = true;
     },
+    gotoDetail(name){
+      this.$router.push({name:'detail',params:{id:name}})
+    }
   },
 }
 </script>

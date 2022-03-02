@@ -23,7 +23,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/vant'
+    '@/plugins/vant',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -45,5 +45,22 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+  router: {
+    extendRoutes(routes, resolve) {
+      // 清空数组
+      routes.splice(0)
+      // 插入新的路由配置
+      routes.push({
+        name: 'home',
+        path: '/',
+        component: resolve(__dirname, 'pages/index')
+      })
+      routes.push({
+        name: 'detail',
+        path: '/detail/:id',
+        component: resolve(__dirname, 'pages/detail/id.vue')
+      })
+    }
   }
 }
