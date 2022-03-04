@@ -1,24 +1,20 @@
 <template>
   <div class="container">
-    <van-cell is-link @click="showPopup">展示弹出层</van-cell>
-    <van-card
-      class="item"
-      @click="gotoDetail(item.name)"
-      v-for="item in records"
-      :key="item.picture"
-      :thumb="item.picture"
-      :title="item.main_title"
-      :desc="item.description"
-      >
-    </van-card>
+    <div class="header">
+       <div class="left">left</div>
+       <div class="news">NEWS</div>
+       <div class="right">right</div>
+    </div>
+   <Card v-for="item in records" :key="item.name" :card="item"></Card>
    <van-popup v-model="show" round position="left" :style="{ height: '100%',width:'200px' }" />
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import { Popup,Card } from 'vant';
-Vue.use(Popup).use(Card);
+import { Popup } from 'vant';
+import Card from "../components/Card.vue";
+Vue.use(Popup);
 export default {
   name: 'IndexPage',
   data() {
@@ -31,7 +27,10 @@ export default {
     this.$store.commit('setRecords',this.records)
   },
  async  asyncData(ctx) {
-   const {app} = ctx;
+   if(process.browser){
+     return;
+   }
+    const {app} = ctx;
     const {data} = await  app.$axios.get('https://www.fastmock.site/mock/65afb835c3ac52158aa333fa2b8571b4/name/name')
     return { records: data.RECORDS }
   },
@@ -45,39 +44,21 @@ export default {
   },
 }
 </script>
-
-<style>
+ <style lang="less">
 .container {
   min-height: 100vh;
-}
+  background: #FAFAFA;
+  .header{
+    display: flex;
+    background-color: #fff;
+    height:82px;
+    .left,.news,.right{
+      margin: 45px 18px 10px 18px;
+      flex:1;
+    }
+  }
+  .item{
 
-.title {
-  font-family:
-    Quicksand,
-    "Source Sans Pro",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+  }
 }
 </style>

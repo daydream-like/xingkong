@@ -5,6 +5,25 @@ export default {
     htmlAttrs: {
       lang: 'en'
     },
+    __dangerouslyDisableSanitizers: ['script'],
+    script: [
+      {
+        hid: 'gtm-script1',
+        src: 'https://www.googletagmanager.com/gtag/js?id=UA-115408988-1',
+        defer: true
+      },
+      {
+        hid: 'gtm-script2',
+        innerHTML: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-115408988-1');
+      `,
+        type: 'text/javascript',
+        charset: 'utf-8'
+      }
+    ],
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -20,7 +39,6 @@ export default {
   css: [
     'vant/lib/index.css'
   ],
-
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/vant',
@@ -62,5 +80,9 @@ export default {
         component: resolve(__dirname, 'pages/detail/id.vue')
       })
     }
+  },
+  loading: {
+    color: 'blue',
+    height: '5px'
   }
 }
