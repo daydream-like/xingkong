@@ -13,7 +13,8 @@
       <div class="data-item">view:3800</div>
       <div class="data-item">like:3800</div>
     </div>
-    <van-button type="info">Read More</van-button>
+
+    <van-button @click="gotoDetail(card.name)" type="info">Read More</van-button>
   </div>
 </template>
 
@@ -30,9 +31,11 @@ export default {
       default:{}
     }
   },
-  mounted(){
-    console.log(this.card)
-  }
+  methods: {
+    gotoDetail(name){
+      this.$router.push({name:'detail',params:{id:name}})
+    }
+  },
 }
 </script>
 
